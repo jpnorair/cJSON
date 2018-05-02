@@ -72,7 +72,7 @@ cleaner: clean
 
 #Build the dynamic library
 libcJSON.so: $(OBJECTS)
-	$(CC) -shared -o $@ $(OBJECTS)
+	$(CC) -shared -o  $(TARGETDIR)/$@ $(OBJECTS)
 
 libcJSON.dylib: $(OBJECTS)
 	$(CC) -dynamiclib -o $(TARGETDIR)/$@ $(OBJECTS)
