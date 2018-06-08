@@ -3,7 +3,7 @@ CC=gcc
 THISMACHINE := $(shell uname -srm | sed -e 's/ /-/g')
 THISSYSTEM	:= $(shell uname -s)
 
-VERSION     ?= "1.0.0"
+VERSION     ?= 1.0.0
 PACKAGEDIR  ?= ./../_hbpkg/$(THISMACHINE)/cJSON.$(VERSION)
 
 
@@ -21,8 +21,8 @@ endif
 
 SRCDIR      := .
 INCDIR      := .
-BUILDDIR    := build
-TARGETDIR   := bin
+BUILDDIR    := build/$(THISMACHINE)
+TARGETDIR   := bin/$(THISMACHINE)
 RESDIR      := 
 SRCEXT      := c
 DEPEXT      := d
@@ -74,7 +74,7 @@ cleaner: clean
 
 #Build the dynamic library
 libcJSON.so: $(OBJECTS)
-	$(CC) -shared -o  $(TARGETDIR)/$@ $(OBJECTS)
+	$(CC) -shared -fPIC -Wl,-soname,libcJSON.so.1 -o $(TARGETDIR)/$@.$(VERSION) $(OBJECTS) -lc
 
 libcJSON.dylib: $(OBJECTS)
 	$(CC) -dynamiclib -o $(TARGETDIR)/$@ $(OBJECTS)
