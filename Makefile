@@ -50,6 +50,7 @@ install:
 	@cp -R ./*.h $(PACKAGEDIR)/
 	@rm -f $(PACKAGEDIR)/../cJSON
 	@ln -s cJSON.$(VERSION) ./$(PACKAGEDIR)/../cJSON
+	cd ../_hbsys && $(MAKE) sys_install INS_MACHINE=$(THISMACHINE) INS_PKGNAME=cJSON
 
 
 #Copy Resources from Resources Directory to Target Directory
