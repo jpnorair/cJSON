@@ -40,6 +40,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <ctype.h>
+#include <stdint.h>
 
 #ifdef ENABLE_LOCALES
 #include <locale.h>
@@ -208,22 +209,17 @@ static cJSON *cJSON_New_Item(const internal_hooks * const hooks)
 }
 
 /* Delete a cJSON structure. */
-CJSON_PUBLIC(void) cJSON_Delete(cJSON *item)
-{
+CJSON_PUBLIC(void) cJSON_Delete(cJSON *item) {
     cJSON *next = NULL;
-    while (item != NULL)
-    {
+    while (item != NULL) {
         next = item->next;
-        if (!(item->type & cJSON_IsReference) && (item->child != NULL))
-        {
+        if (!(item->type & cJSON_IsReference) && (item->child != NULL)) {
             cJSON_Delete(item->child);
         }
-        if (!(item->type & cJSON_IsReference) && (item->valuestring != NULL))
-        {
+        if (!(item->type & cJSON_IsReference) && (item->valuestring != NULL)) {
             global_hooks.deallocate(item->valuestring);
         }
-        if (!(item->type & cJSON_StringIsConst) && (item->string != NULL))
-        {
+        if (!(item->type & cJSON_StringIsConst) && (item->string != NULL)) {
             global_hooks.deallocate(item->string);
         }
         global_hooks.deallocate(item);
