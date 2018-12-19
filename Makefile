@@ -11,10 +11,10 @@ ifeq ($(THISSYSTEM),Darwin)
 # Mac can't do conditional selection of static and dynamic libs at link time.
 #	PRODUCTS := libcJSON.dylib libcJSON.a
 	PRODUCTS := libcJSON.a
-	
 else ifeq ($(THISSYSTEM),Linux)
 	PRODUCTS := libcJSON.so libcJSON.a
-	
+else ifeq ($(THISSYSTEM),CYGWIN_NT-10.0)
+	PRODUCTS := libcJSON.a
 else
 	error "THISSYSTEM set to unknown value: $(THISSYSTEM)"
 endif
