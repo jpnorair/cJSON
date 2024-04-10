@@ -19,6 +19,11 @@ LD := ld
 THISMACHINE ?= $(shell uname -srm | sed -e 's/ /-/g')
 THISSYSTEM	?= $(shell uname -s)
 
+EXT_INC     ?= 
+EXT_LIBINC  ?= 
+EXT_LIBFLAGS?=
+EXT_LIBS    ?= 
+
 VERSION     ?= 1.0.0
 PACKAGEDIR  ?= ./../_hbpkg/$(THISMACHINE)/cJSON.$(VERSION)
 
@@ -27,6 +32,8 @@ ifeq ($(THISSYSTEM),Darwin)
 # Mac can't do conditional selection of static and dynamic libs at link time.
 #	PRODUCTS := libcJSON.dylib libcJSON.a
 	PRODUCTS := libcJSON.a
+	EXT_INC := -I/opt/homebrew/include $(EXT_INC)
+	EXT_LIBINC := -L/opt/homebrew/lib $(EXT_LIBINC)
 else ifeq ($(THISSYSTEM),Linux)
 	PRODUCTS := libcJSON.so libcJSON.a
 else ifeq ($(THISSYSTEM),CYGWIN_NT-10.0)
@@ -45,7 +52,7 @@ DEPEXT      := d
 OBJEXT      := o
 
 CFLAGS      ?= -std=gnu99 -fPIC -O3
-LIB         := $(EXT_LIB)
+LIB         := $(EXT_LIBINC) $(EXT_LIBFLAGS)
 INC         := -I$(INCDIR) $(EXT_INC) 
 INCDEP      := -I$(INCDIR) $(EXT_INC) 
 
